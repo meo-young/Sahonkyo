@@ -1,0 +1,16 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+Content/Fab/MetaHuman/MiniSkirt-SleevelessBlouse_Outfit.uasset filter=lfs diff=lfs merge=lfs -text
+OA_A_outfit_67.uasset filter=lfs diff=lfs merge=lfs -text
+SKM_MC_Hikaroo_FaceMesh.uasset filter=lfs diff=lfs merge=lfs -text
+SKM_MC_Student_A_FaceMesh.uasset filter=lfs diff=lfs merge=lfs -text
+SKM_MC_Student_B_FaceMesh.uasset filter=lfs diff=lfs merge=lfs -text
+SKM_MC_Student_C_FaceMesh.uasset filter=lfs diff=lfs merge=lfs -text
+SKM_MC_Teacher_FaceMesh.uasset filter=lfs diff=lfs merge=lfs -text
+SKM_MC_Yamiko_FaceMesh.uasset filter=lfs diff=lfs merge=lfs -text
+MC_Hikaroo.uasset filter=lfs diff=lfs merge=lfs -text
+MC_Student_A.uasset filter=lfs diff=lfs merge=lfs -text
+MC_Student_B.uasset filter=lfs diff=lfs merge=lfs -text
+MC_Student_C.uasset filter=lfs diff=lfs merge=lfs -text
+MC_Teacher.uasset filter=lfs diff=lfs merge=lfs -text
+MC_Yamiko.uasset filter=lfs diff=lfs merge=lfs -text
