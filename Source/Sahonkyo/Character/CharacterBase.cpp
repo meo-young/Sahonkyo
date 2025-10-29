@@ -10,16 +10,6 @@ ACharacterBase::ACharacterBase()
 	GetMesh()->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	GetMesh()->SetRelativeLocation(FVector(0.0f, 0.0f, -90.0f));
 	GetMesh()->FirstPersonPrimitiveType = EFirstPersonPrimitiveType::FirstPerson;
-	
-	// 1인칭 카메라 컴포넌트 생성 및 설정합니다.
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("First Person Camera"));
-	CameraComponent->SetupAttachment(GetMesh(), FName("head"));
-	CameraComponent->SetRelativeLocationAndRotation(FVector(0.0f, 11.0f, 0.0f), FRotator(0.0f, 90.0f, -90.0f));
-	CameraComponent->bUsePawnControlRotation = true;
-	CameraComponent->bEnableFirstPersonFieldOfView = true;
-	CameraComponent->bEnableFirstPersonScale = true;
-	CameraComponent->FirstPersonFieldOfView = 70.0f;
-	CameraComponent->FirstPersonScale = 0.8f;
 
 	// 캐릭터 이동 관련 설정합니다.
 	GetCharacterMovement()->MaxWalkSpeed = 100.0f;

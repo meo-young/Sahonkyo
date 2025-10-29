@@ -31,7 +31,4 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "변수|입력")
 	TObjectPtr<UInputAction> LookAction;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "변수|카메라")
-	TObjectPtr<UCameraComponent> CameraComponent;
-
 };
