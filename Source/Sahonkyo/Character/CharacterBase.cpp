@@ -6,6 +6,12 @@
 
 ACharacterBase::ACharacterBase()
 {
+	// 카메라 컴포넌트를 설정합니다.
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
+	CameraComponent->SetupAttachment(GetMesh());
+	CameraComponent->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
+	CameraComponent->bUsePawnControlRotation = true;
+	
 	// 1인칭 메쉬를 설정합니다.
 	GetMesh()->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	GetMesh()->SetRelativeLocation(FVector(0.0f, 0.0f, -90.0f));

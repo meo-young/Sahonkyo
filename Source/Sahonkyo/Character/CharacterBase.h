@@ -31,4 +31,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "변수|입력")
 	TObjectPtr<UInputAction> LookAction;
 
+	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
+	TObjectPtr<UCameraComponent> CameraComponent;
+	
 };
