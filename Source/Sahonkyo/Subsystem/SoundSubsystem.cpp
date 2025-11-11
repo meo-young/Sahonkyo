@@ -7,6 +7,7 @@
 #include "Components/AudioComponent.h"
 #include "Engine/AssetManager.h"
 #include "Engine/StreamableManager.h"
+#include "Kismet/GameplayStatics.h"
 #include "Sound/SoundCue.h"
 
 USoundSubsystem::USoundSubsystem()
@@ -53,18 +54,25 @@ void USoundSubsystem::PlaySFXInLocation(ESFX SFXType, const FVector& Location)
 	// 유효한 SFXType인지 확인합니다.
 	if (!SFXTableRows.IsValidIndex(static_cast<int32>(SFXType))) return;
 
+	TWeakObjectPtr<USoundSubsystem> WeakThis(this);
+
 	// 비동기 로드를 사용하여 사운드를 로드하고 재생합니다.
 	FStreamableManager& Streamable = UAssetManager::GetStreamableManager();
 	Streamable.RequestAsyncLoad(SFXTableRows[static_cast<int32>(SFXType)]->Sound.ToSoftObjectPath(),
-	[this, SFXType, Location]()
+	[WeakThis, SFXType, Location]()
 		{
-			USoundCue* LoadedSound = SFXTableRows[static_cast<int32>(SFXType)]->Sound.Get();
-		
-			if (UAudioComponent* AC = GetPooledAudioComponent())
+			if (!WeakThis.IsValid()) return;
+			if (USoundSubsystem* SoundSubsystem = WeakThis.Get())
 			{
-				AC->SetSound(LoadedSound);
-				AC->SetWorldLocation(Location);
-				AC->Play();
+				if (USoundCue* LoadedSound = SoundSubsystem->SFXTableRows[static_cast<int32>(SFXType)]->Sound.Get())
+				{
+					if (UAudioComponent* AC = SoundSubsystem->GetPooledAudioComponent())
+					{
+						AC->SetWorldLocation(Location);
+						AC->SetSound(LoadedSound);
+						AC->Play();
+					}	
+				}
 			}
 		});
 }
@@ -78,21 +86,29 @@ void USoundSubsystem::PlayBGM(EBGM BGMType)
 {
 	// 유효한 BGMType인지 확인합니다.
 	if (!BGMAudioComponent || !BGMTableRows.IsValidIndex(static_cast<int32>(BGMType))) return;
+
+	TWeakObjectPtr<USoundSubsystem> WeakThis(this);
 	
 	// 비동기 로드를 사용하여 사운드를 로드하고 재생합니다.
 	FStreamableManager& Streamable = UAssetManager::GetStreamableManager();
 	Streamable.RequestAsyncLoad(BGMTableRows[static_cast<int32>(BGMType)]->Sound.ToSoftObjectPath(),
-	[this, BGMType]()
+	[WeakThis, BGMType]()
 		{
-			USoundCue* LoadedSound = BGMTableRows[static_cast<int32>(BGMType)]->Sound.Get();
-
-			if (BGMAudioComponent->IsPlaying())
+			if (!WeakThis.IsValid()) return;
+			if (USoundSubsystem* SoundSubsystem = WeakThis.Get())
 			{
-				BGMAudioComponent->Stop();
-			}
+				if (USoundCue* LoadedSound = SoundSubsystem->BGMTableRows[static_cast<int32>(BGMType)]->Sound.Get())
+				{
+					if (SoundSubsystem->BGMAudioComponent->IsPlaying())
+					{
+						SoundSubsystem->BGMAudioComponent->Stop();
+					}
 
-			BGMAudioComponent->SetSound(LoadedSound);
-			BGMAudioComponent->Play();
+					SoundSubsystem->BGMAudioComponent->SetSound(LoadedSound);
+					SoundSubsystem->BGMAudioComponent->Play();	
+				}
+			}
+		
 		});
 }
 
@@ -142,8 +158,9 @@ UAudioComponent* USoundSubsystem::GetPooledAudioComponent()
 		AC->bAutoActivate = false;
 		AC->OnAudioFinishedNative.AddLambda([this](UAudioComponent* Comp) { OnSFXFinished(Comp); });
 		AC->RegisterComponentWithWorld(CachedWorld);
+		SFXComponents.Add(AC);
 	}
-
+	
 	return AC;
 }
 
@@ -160,8 +177,9 @@ void USoundSubsystem::RegisterSFXComponent()
 	{
 		UAudioComponent* AC = NewObject<UAudioComponent>(CachedWorld);
 		AC->bAutoActivate = false;
-		AC->OnAudioFinishedNative.AddLambda([this](UAudioComponent* Comp) { OnSFXFinished(Comp); });
+		AC->OnAudioFinishedNative.AddUObject(this, &USoundSubsystem::OnSFXFinished);
 		AC->RegisterComponentWithWorld(CachedWorld);
+		SFXComponents.Add(AC);
 		SFXQueues.Enqueue(AC);
 	}
 }

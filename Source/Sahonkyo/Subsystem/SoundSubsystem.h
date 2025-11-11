@@ -70,6 +70,10 @@ private:
 
 	/** BGM 데이터테이블의 모든 행을 저장하는 배열입니다. */
 	TArray<FBGMTableRowBase*> BGMTableRows;
+
+	/** GC 보호용 SFX 오디오 컴포넌트 배열입니다. */
+	UPROPERTY()
+	TArray<TObjectPtr<UAudioComponent>> SFXComponents;
 	
 	/** SFX 오디오 컴포넌트 풀입니다. */
 	TQueue<UAudioComponent*> SFXQueues;

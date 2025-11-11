@@ -1,5 +1,9 @@
 #include "Animation/Notify/AnimNotify_Footstep.h"
+
+#include "Sahonkyo.h"
 #include "Define/Define.h"
+#include "Enum/ESFX.h"
+#include "Library/SoundLibrary.h"
 
 void UAnimNotify_Footstep::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference)
 {
@@ -25,7 +29,7 @@ void UAnimNotify_Footstep::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenc
 		HitResult,
 		CurrentLocation,
 		TargetLocation,
-		ECC_Visibility,
+		ECC_FOOTSTEP,
 		QueryParams
 		);
 
@@ -38,12 +42,27 @@ void UAnimNotify_Footstep::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenc
 	{
 		if (HitResult.PhysMaterial.IsValid())
 		{
+			LOG(TEXT("%s Surface Type: %d"), *Owner->GetName(), HitResult.PhysMaterial->SurfaceType.GetIntValue());
 			switch (HitResult.PhysMaterial->SurfaceType)
 			{
 			case SURFACE_WOOD:
+				USoundLibrary::PlaySFXInLocation(Owner, ESFX::Footstep_Wood, HitResult.ImpactPoint);
+				break;
+
+			case SURFACE_CONCRETE:
+				USoundLibrary::PlaySFXInLocation(Owner, ESFX::Footstep_Concrete, HitResult.ImpactPoint);
+				break;
+
+			case SURFACE_CARPET:
+				USoundLibrary::PlaySFXInLocation(Owner, ESFX::Footstep_Carpet, HitResult.ImpactPoint);
+				break;
+				
+			case SURFACE_TILE:
+				USoundLibrary::PlaySFXInLocation(Owner, ESFX::Footstep_Tile, HitResult.ImpactPoint);
 				break;
 			
 			default:
+				USoundLibrary::PlaySFXInLocation(Owner, ESFX::Footstep_Wood, HitResult.ImpactPoint);
 				break;
 			}
 		}

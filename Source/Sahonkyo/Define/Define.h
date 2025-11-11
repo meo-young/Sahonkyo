@@ -4,3 +4,5 @@
 #define SURFACE_CONCRETE 		SurfaceType2
 #define SURFACE_CARPET 			SurfaceType3
 #define SURFACE_TILE 			SurfaceType4
+
+#define ECC_FOOTSTEP 			ECC_GameTraceChannel1
