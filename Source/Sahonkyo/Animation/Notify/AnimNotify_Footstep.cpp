@@ -1,4 +1,5 @@
 #include "Animation/Notify/AnimNotify_Footstep.h"
+#include "Define/Define.h"
 
 void UAnimNotify_Footstep::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference)
 {
@@ -39,6 +40,8 @@ void UAnimNotify_Footstep::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenc
 		{
 			switch (HitResult.PhysMaterial->SurfaceType)
 			{
+			case SURFACE_WOOD:
+				break;
 			
 			default:
 				break;

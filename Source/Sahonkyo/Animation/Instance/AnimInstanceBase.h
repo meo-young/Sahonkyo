@@ -25,6 +25,10 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "변수")
 	float MoveSpeed;
 
+	/** 캐릭터가 이동 중인지 여부에 대한 변수입니다. */
+	UPROPERTY(BlueprintReadOnly, Category = "변수")
+	uint8 bIsMoving : 1 = false;
+
 private:
 	/** 이 애니메이션 인스턴스가 소유하고 있는 캐릭터입니다. */
 	UPROPERTY()

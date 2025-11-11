@@ -1,4 +1,4 @@
-#include "Animation/AnimInstanceBase.h"
+#include "Animation/Instance/AnimInstanceBase.h"
 #include "Sahonkyo.h"
 #include "Character/CharacterBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -41,4 +41,13 @@ void UAnimInstanceBase::NativeUpdateAnimation(float DeltaSeconds)
 
 	// 캐릭터의 이동 속도를 계산합니다.
 	MoveSpeed = MovementComponent->Velocity.Size();
+
+	if (MoveSpeed > KINDA_SMALL_NUMBER)
+	{
+		bIsMoving = true;
+	}
+	else
+	{
+		bIsMoving = false;
+	}
 }
