@@ -54,6 +54,7 @@ void USoundSubsystem::PlaySFXInLocation(ESFX SFXType, const FVector& Location)
 	// 유효한 SFXType인지 확인합니다.
 	if (!SFXTableRows.IsValidIndex(static_cast<int32>(SFXType))) return;
 
+	// 약한 참조로 자신을 캡처합니다.
 	TWeakObjectPtr<USoundSubsystem> WeakThis(this);
 
 	// 비동기 로드를 사용하여 사운드를 로드하고 재생합니다.
@@ -62,6 +63,7 @@ void USoundSubsystem::PlaySFXInLocation(ESFX SFXType, const FVector& Location)
 	[WeakThis, SFXType, Location]()
 		{
 			if (!WeakThis.IsValid()) return;
+		
 			if (USoundSubsystem* SoundSubsystem = WeakThis.Get())
 			{
 				if (USoundCue* LoadedSound = SoundSubsystem->SFXTableRows[static_cast<int32>(SFXType)]->Sound.Get())
@@ -87,6 +89,7 @@ void USoundSubsystem::PlayBGM(EBGM BGMType)
 	// 유효한 BGMType인지 확인합니다.
 	if (!BGMAudioComponent || !BGMTableRows.IsValidIndex(static_cast<int32>(BGMType))) return;
 
+	// 약한 참조로 자신을 캡처합니다.
 	TWeakObjectPtr<USoundSubsystem> WeakThis(this);
 	
 	// 비동기 로드를 사용하여 사운드를 로드하고 재생합니다.
