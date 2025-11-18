@@ -70,8 +70,8 @@ void UInteractionComponent::TraceForInteractable()
 		}
 	}
 
-#if WITH_EDITOR
+/*#if WITH_EDITOR
 	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Green, false, 0.1f, 0, 0.3f);
-#endif
+#endif*/
 	
 }

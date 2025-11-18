@@ -25,7 +25,7 @@ private:
 protected:
 	/** Line Trace를 실시하는 거리입니다. */
 	UPROPERTY(EditDefaultsOnly, Category = "변수|수치")
-	float TraceDistance = 100.0f;
+	float TraceDistance = 115.0f;
 
 private:
 	FHitResult Hit;
