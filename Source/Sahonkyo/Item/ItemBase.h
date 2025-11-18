@@ -21,6 +21,8 @@ public:
 
 public:
 	virtual void Interact_Implementation() override;
+	virtual void OnInteractablePossible_Implementation() override;
+	virtual void OnInteractableImpossible_Implementation() override; 
 
 private:
 	UFUNCTION()

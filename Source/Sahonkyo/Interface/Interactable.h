@@ -18,4 +18,10 @@ public:
 	UFUNCTION(BlueprintNativeEvent)
 	void Interact();
 
+	UFUNCTION(BlueprintNativeEvent)
+	void OnInteractablePossible();
+
+	UFUNCTION(BlueprintNativeEvent)
+	void OnInteractableImpossible();
+
 };

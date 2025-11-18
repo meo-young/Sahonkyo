@@ -13,7 +13,11 @@ class SAHONKYO_API UItemWidget : public UWidgetBase
 	GENERATED_BODY()
 
 public:
+	virtual void NativeConstruct() override;
+
+public:
 	void SetObjectImage(UTexture2D* InTexture);
+	void SetObjectImageActive(const bool bIsActive);
 
 private:
 	UPROPERTY(meta = (BindWidget))

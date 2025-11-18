@@ -76,5 +76,8 @@ void ACharacterBase::DoLook(const FInputActionValue& LookInput)
 
 void ACharacterBase::DoInteract(const FInputActionValue& InteractInput)
 {
-	LOG(TEXT("상호작용"));
+	if (InteractionComponent)
+	{
+		InteractionComponent->ExecuteInteractIfPossible();
+	}
 }

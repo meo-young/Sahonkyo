@@ -58,6 +58,32 @@ void AItemBase::Interact_Implementation()
 	LOG(TEXT("아이템 상호작용 함수입니다."));
 }
 
+void AItemBase::OnInteractablePossible_Implementation()
+{
+	IInteractable::OnInteractablePossible_Implementation();
+
+	if (UUserWidget* Widget = ItemWidgetComponent->GetUserWidgetObject())
+	{
+		if (UItemWidget* ItemWidget = Cast<UItemWidget>(Widget))
+		{
+			ItemWidget->SetObjectImageActive(true);
+		}
+	}
+}
+
+void AItemBase::OnInteractableImpossible_Implementation()
+{
+	IInteractable::OnInteractableImpossible_Implementation();
+
+	if (UUserWidget* Widget = ItemWidgetComponent->GetUserWidgetObject())
+	{
+		if (UItemWidget* ItemWidget = Cast<UItemWidget>(Widget))
+		{
+			ItemWidget->SetObjectImageActive(false);
+		}
+	}
+}
+
 void AItemBase::OnIconTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                           UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
