@@ -20,10 +20,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual void HideWidget();
 
-	/** 이미지의 투명도를 설정하는 함수입니다. */
-	UFUNCTION(BlueprintCallable)
-	virtual void SetImageOpacity(UImage* Image, const float Opacity, const float Duration = 0.0f);
-
 private:
 	
 

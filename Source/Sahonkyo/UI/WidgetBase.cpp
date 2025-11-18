@@ -18,7 +18,3 @@ void UWidgetBase::HideWidget()
 		RemoveFromParent();
 	}
 }
-
-void UWidgetBase::SetImageOpacity(UImage* Image, const float Opacity, const float Duration)
-{
-}
