@@ -55,7 +55,7 @@ void AItemBase::Interact_Implementation()
 {
 	IInteractable::Interact_Implementation();
 
-	LOG(TEXT("아이템 상호작용 함수입니다."));
+	LOG(TEXT("아이템과 상호작용 합니다."));
 }
 
 void AItemBase::OnInteractablePossible_Implementation()
@@ -66,6 +66,7 @@ void AItemBase::OnInteractablePossible_Implementation()
 	{
 		if (UItemWidget* ItemWidget = Cast<UItemWidget>(Widget))
 		{
+			//LOG(TEXT("아이템과 상호작용이 가능합니다."));
 			ItemWidget->SetObjectImageActive(true);
 		}
 	}
@@ -79,6 +80,7 @@ void AItemBase::OnInteractableImpossible_Implementation()
 	{
 		if (UItemWidget* ItemWidget = Cast<UItemWidget>(Widget))
 		{
+			LOG(TEXT("아이템과 상호작용이 불가능합니다."));
 			ItemWidget->SetObjectImageActive(false);
 		}
 	}
@@ -88,20 +90,14 @@ void AItemBase::OnIconTriggerBeginOverlap(UPrimitiveComponent* OverlappedCompone
                                           UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (!OtherActor || !OtherActor->IsA(ACharacterBase::StaticClass())) return;
-
-	LOG(TEXT("Item 아이콘울 표시합니다."));
-
+	
 	ItemWidgetComponent->SetVisibility(true);
-
 }
 
 void AItemBase::OnIconTriggerEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	if (!OtherActor || !OtherActor->IsA(ACharacterBase::StaticClass())) return;
-
-	LOG(TEXT("Item 아이콘을 숨깁니다."));
-
+	
 	ItemWidgetComponent->SetVisibility(false);
-
 }
