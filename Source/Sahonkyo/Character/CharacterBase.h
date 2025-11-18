@@ -8,6 +8,7 @@ class UGroomComponent;
 class UInputAction;
 class UInputComponent;
 class UCameraComponent;
+class UInteractionComponent;
 struct FInputActionValue;
 
 UCLASS()
@@ -23,15 +24,25 @@ public:
 protected:
 	void DoMove(const FInputActionValue& MovementInput);
 	void DoLook(const FInputActionValue& LookInput);
+	void DoInteract(const FInputActionValue& InteractInput);
 
 protected:
+	/* ================== Input Action ================== */
+	UPROPERTY(EditDefaultsOnly, Category = "변수|입력")
+	TObjectPtr<UInputAction> InteractAction;
+	
 	UPROPERTY(EditDefaultsOnly, Category = "변수|입력")
 	TObjectPtr<UInputAction> MoveAction;
 
 	UPROPERTY(EditDefaultsOnly, Category = "변수|입력")
 	TObjectPtr<UInputAction> LookAction;
 
+
+	/* ================== 컴포넌트 ================== */
 	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
 	TObjectPtr<UCameraComponent> CameraComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
+	TObjectPtr<UInteractionComponent> InteractionComponent;
 	
 };

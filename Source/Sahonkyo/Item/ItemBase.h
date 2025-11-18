@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Interface/Interactable.h"
 #include "ItemBase.generated.h"
 
 class UWidgetComponent;
@@ -9,7 +10,7 @@ class UItemWidget;
 class USphereComponent;
 
 UCLASS()
-class SAHONKYO_API AItemBase : public AActor
+class SAHONKYO_API AItemBase : public AActor, public IInteractable
 {
 	GENERATED_BODY()
 
@@ -17,6 +18,9 @@ public:
 	AItemBase();
 	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
+
+public:
+	virtual void Interact_Implementation() override;
 
 private:
 	UFUNCTION()

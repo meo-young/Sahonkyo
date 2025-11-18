@@ -6,3 +6,4 @@
 #define SURFACE_TILE 			SurfaceType4
 
 #define ECC_FOOTSTEP 			ECC_GameTraceChannel1
+#define ECC_INTERACTABLE 		ECC_GameTraceChannel2

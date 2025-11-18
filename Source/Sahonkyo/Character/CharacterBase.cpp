@@ -1,11 +1,16 @@
 #include "CharacterBase.h"
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
+#include "Sahonkyo.h"
 #include "Camera/CameraComponent.h"
+#include "Component/InteractionComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 ACharacterBase::ACharacterBase()
 {
+	// 상호작용 컴포넌트를 설정합니다.
+	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));
+	
 	// 카메라 컴포넌트를 설정합니다.
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	CameraComponent->SetupAttachment(GetMesh());
@@ -36,6 +41,11 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		{
 			EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ThisClass::DoLook);
 		}
+
+		if (InteractAction)
+		{
+			EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Started, this, &ThisClass::DoInteract);
+		}
 	}
 }
 
@@ -62,4 +72,9 @@ void ACharacterBase::DoLook(const FInputActionValue& LookInput)
 	// 마우스 이동 값에 맞게 캐릭터의 시점을 회전시킵니다.
 	AddControllerYawInput(LookVector.X);
 	AddControllerPitchInput(LookVector.Y);
+}
+
+void ACharacterBase::DoInteract(const FInputActionValue& InteractInput)
+{
+	LOG(TEXT("상호작용"));
 }
