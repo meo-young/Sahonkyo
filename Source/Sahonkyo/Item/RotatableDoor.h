@@ -4,6 +4,10 @@
 #include "Item/ItemBase.h"
 #include "RotatableDoor.generated.h"
 
+class UCameraComponent;
+class UActorSequence;
+class UActorSequenceComponent;
+
 UCLASS()
 class SAHONKYO_API ARotatableDoor : public AItemBase
 {
@@ -11,26 +15,27 @@ class SAHONKYO_API ARotatableDoor : public AItemBase
 
 public:
 	ARotatableDoor();
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaSeconds) override;
 	
 public:
+	UFUNCTION(BlueprintImplementableEvent)
+	void PlayActorSequence();
+
+	UFUNCTION(BlueprintCallable)
+	void OnInteractionEnd();
+	
 	virtual void Interact_Implementation() override;
 
+private:
+	void InitViewTarget();
+
 protected:
-	UPROPERTY(EditAnywhere, Category = "변수|수치")
-	float RotationAngle = 90.f;
+	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
+	TObjectPtr<UCameraComponent> SequenceCameraComponent;
 
-	UPROPERTY(EditAnywhere, Category = "변수|수치")
-	uint8 bIsOpened : 1 = false;
-
-	UPROPERTY(EditAnywhere, Category = "변수|수치")
-	float RotationSpeed = 2.f;
+	UPROPERTY(EditAnywhere, Category = "변수|상태")
+	uint8 bIsInteractionOnce : 1 = false;
 
 private:
-	uint8 bIsRotating : 1 = false;
-	FRotator TargetRotation = FRotator::ZeroRotator;
-	FRotator StartRotation;        
-	float CurrentLerpAlpha = 0.0f; 
-	
+	uint8 bHasInteracted : 1 = false;
+
 };

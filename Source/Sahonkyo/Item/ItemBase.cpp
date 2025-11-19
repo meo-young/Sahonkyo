@@ -8,8 +8,11 @@
 
 AItemBase::AItemBase()
 {
+	SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComponent"));
+	RootComponent = SceneComponent;
+	
 	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMesh"));
-	RootComponent = ItemMesh;
+	ItemMesh->SetupAttachment(SceneComponent);
 
 	IconTriggerCollision = CreateDefaultSubobject<USphereComponent>(TEXT("IconTriggerCollision"));
 	IconTriggerCollision->SetupAttachment(ItemMesh);
@@ -21,7 +24,7 @@ AItemBase::AItemBase()
 	InteractCollision->SetCollisionResponseToChannel(ECC_INTERACTABLE, ECR_Block);
 
 	ItemWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("ItemWidgetComponent"));
-	ItemWidgetComponent->SetupAttachment(RootComponent);
+	ItemWidgetComponent->SetupAttachment(ItemMesh);
 	ItemWidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	ItemWidgetComponent->SetDrawAtDesiredSize(true);
 	ItemWidgetComponent->SetPivot(FVector2D(0.5f, 1.0f));
@@ -84,6 +87,12 @@ void AItemBase::OnInteractableImpossible_Implementation()
 			ItemWidget->SetObjectImageActive(false);
 		}
 	}
+}
+
+void AItemBase::DeactivateItemCollision()
+{
+	IconTriggerCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	InteractCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AItemBase::OnIconTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

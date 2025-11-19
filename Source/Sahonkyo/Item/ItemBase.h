@@ -22,7 +22,10 @@ public:
 public:
 	virtual void Interact_Implementation() override;
 	virtual void OnInteractablePossible_Implementation() override;
-	virtual void OnInteractableImpossible_Implementation() override; 
+	virtual void OnInteractableImpossible_Implementation() override;
+
+protected:
+	virtual void DeactivateItemCollision();
 
 private:
 	UFUNCTION()
@@ -32,6 +35,9 @@ private:
 	void OnIconTriggerEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	
 protected:
+	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
+	TObjectPtr<USceneComponent> SceneComponent;
+	
 	UPROPERTY(EditDefaultsOnly, Category = "변수|메시")
 	TObjectPtr<UStaticMeshComponent> ItemMesh;
 

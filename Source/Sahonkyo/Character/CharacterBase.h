@@ -44,5 +44,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
 	TObjectPtr<UInteractionComponent> InteractionComponent;
+
+public:
+	FORCEINLINE UCameraComponent* GetCameraComponent() const { return CameraComponent; }
 	
 };
