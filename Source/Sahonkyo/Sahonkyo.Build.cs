@@ -16,11 +16,14 @@ public class Sahonkyo : ModuleRules
 			"CoreUObject", 
 			"Engine", 
 			"InputCore", 
-			"EnhancedInput"
+			"EnhancedInput",
+			"ActorSequence",
+			"LevelSequence",
+			"MovieScene",
+			"AIModule",
+			"NavigationSystem"
 		});
-
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
-
+		
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 		
