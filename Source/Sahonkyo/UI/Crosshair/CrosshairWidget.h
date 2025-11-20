@@ -1,8 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WidgetBase.h"
-#include "Blueprint/UserWidget.h"
+#include "UI/WidgetBase.h"
 #include "CrosshairWidget.generated.h"
 
 class UImage;

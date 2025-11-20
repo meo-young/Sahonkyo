@@ -1,7 +1,7 @@
 #include "Core/Main/MainGameMode.h"
 #include "Sahonkyo.h"
 #include "Manager/UIManager.h"
-#include "UI/CrosshairWidget.h"
+#include "UI/Crosshair/CrosshairWidget.h"
 
 void AMainGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
 {

@@ -1,7 +1,7 @@
 #include "Manager/UIManager.h"
 #include "Sahonkyo.h"
 #include "Character/PlayerControllerBase.h"
-#include "UI/CrosshairWidget.h"
+#include "UI/Crosshair/CrosshairWidget.h"
 
 UUIManager::UUIManager()
 {
