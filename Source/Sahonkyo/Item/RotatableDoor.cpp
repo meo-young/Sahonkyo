@@ -6,8 +6,6 @@
 
 ARotatableDoor::ARotatableDoor()
 {
-	PrimaryActorTick.bCanEverTick = false;
-
 	SequenceCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("SequenceCameraComponent"));
 	SequenceCameraComponent->SetupAttachment(RootComponent);
 }

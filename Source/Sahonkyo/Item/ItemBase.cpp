@@ -8,6 +8,8 @@
 
 AItemBase::AItemBase()
 {
+	PrimaryActorTick.bCanEverTick = true;
+	
 	SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComponent"));
 	RootComponent = SceneComponent;
 	
@@ -16,6 +18,7 @@ AItemBase::AItemBase()
 
 	IconTriggerCollision = CreateDefaultSubobject<USphereComponent>(TEXT("IconTriggerCollision"));
 	IconTriggerCollision->SetupAttachment(ItemMesh);
+	IconTriggerCollision->SetCollisionResponseToChannel(ECC_ICON_TRACE, ECR_Ignore);
 	IconTriggerCollision->SetCollisionEnabled(ECollisionEnabled::Type::QueryOnly);
 
 	InteractCollision = CreateDefaultSubobject<USphereComponent>(TEXT("InteractCollision"));
@@ -36,7 +39,7 @@ AItemBase::AItemBase()
 void AItemBase::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-
+	
 	IconTriggerCollision->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnIconTriggerBeginOverlap);
 	IconTriggerCollision->OnComponentEndOverlap.AddDynamic(this, &ThisClass::OnIconTriggerEndOverlap);
 
@@ -52,6 +55,16 @@ void AItemBase::PostInitializeComponents()
 void AItemBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	SetActorTickEnabled(false);
+
+	Params.AddIgnoredActor(this);
+}
+
+void AItemBase::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	TraceToPlayer();
 }
 
 void AItemBase::Interact_Implementation()
@@ -99,8 +112,10 @@ void AItemBase::OnIconTriggerBeginOverlap(UPrimitiveComponent* OverlappedCompone
                                           UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (!OtherActor || !OtherActor->IsA(ACharacterBase::StaticClass())) return;
-	
-	ItemWidgetComponent->SetVisibility(true);
+
+	SetActorTickEnabled(true);
+
+	LOG(TEXT("아이템 아이콘 트리거에 플레이어가 진입했습니다."));
 }
 
 void AItemBase::OnIconTriggerEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -109,4 +124,23 @@ void AItemBase::OnIconTriggerEndOverlap(UPrimitiveComponent* OverlappedComponent
 	if (!OtherActor || !OtherActor->IsA(ACharacterBase::StaticClass())) return;
 	
 	ItemWidgetComponent->SetVisibility(false);
+
+	LOG(TEXT("아이템 아이콘 트리거에 플레이어가 진입했습니다."));
+
+	SetActorTickEnabled(false);
+}
+
+void AItemBase::TraceToPlayer()
+{
+	const FVector Start = InteractCollision->GetComponentLocation();
+	const FVector End = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	
+	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_ICON_TRACE, Params);
+
+	DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 0.5f, 0, 2.0f);
+
+	if (HitResult.GetActor() && HitResult.GetActor()->IsA(ACharacterBase::StaticClass()))
+	{
+		ItemWidgetComponent->SetVisibility(true);
+	}
 }

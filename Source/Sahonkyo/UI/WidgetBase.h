@@ -19,11 +19,5 @@ public:
 	/** 위젯을 화면에서 숨기는 함수입니다. */
 	UFUNCTION(BlueprintCallable)
 	virtual void HideWidget();
-
-private:
-	
-
-private:
-	FTimerHandle OpacityTimerHandle;
 	
 };

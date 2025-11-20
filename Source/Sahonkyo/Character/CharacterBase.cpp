@@ -4,6 +4,8 @@
 #include "Sahonkyo.h"
 #include "Camera/CameraComponent.h"
 #include "Component/InteractionComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Define/Define.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 ACharacterBase::ACharacterBase()
@@ -24,6 +26,9 @@ ACharacterBase::ACharacterBase()
 
 	// 캐릭터 이동 관련 설정합니다.
 	GetCharacterMovement()->MaxWalkSpeed = 100.0f;
+
+	// 캡슐 콜리전 설정을 수정합니다.
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_ICON_TRACE, ECR_Block);
 }
 
 void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

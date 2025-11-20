@@ -7,3 +7,4 @@
 
 #define ECC_FOOTSTEP 			ECC_GameTraceChannel1
 #define ECC_INTERACTABLE 		ECC_GameTraceChannel2
+#define ECC_ICON_TRACE 			ECC_GameTraceChannel3

@@ -34,7 +34,7 @@ void UAnimNotify_Footstep::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenc
 		);
 
 #if WITH_EDITOR
-	DrawDebugLine(World, CurrentLocation, TargetLocation, FColor::Green, false, 1.0f, 0, 2.0f);
+	//DrawDebugLine(World, CurrentLocation, TargetLocation, FColor::Green, false, 1.0f, 0, 2.0f);
 #endif
 	
 	// Surface Type에 따른 발걸음 소리를 재생한다.
@@ -42,7 +42,7 @@ void UAnimNotify_Footstep::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenc
 	{
 		if (HitResult.PhysMaterial.IsValid())
 		{
-			LOG(TEXT("%s Surface Type: %d"), *Owner->GetName(), HitResult.PhysMaterial->SurfaceType.GetIntValue());
+			//LOG(TEXT("%s Surface Type: %d"), *Owner->GetName(), HitResult.PhysMaterial->SurfaceType.GetIntValue());
 			switch (HitResult.PhysMaterial->SurfaceType)
 			{
 			case SURFACE_WOOD:

@@ -18,6 +18,7 @@ public:
 	AItemBase();
 	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 
 public:
 	virtual void Interact_Implementation() override;
@@ -33,6 +34,8 @@ private:
 
 	UFUNCTION()
 	void OnIconTriggerEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	void TraceToPlayer();
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
@@ -52,5 +55,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "변수|UI")
 	TObjectPtr<UWidgetComponent> ItemWidgetComponent;
+
+private:
+	FHitResult HitResult;
+	FCollisionQueryParams Params;
 
 };
