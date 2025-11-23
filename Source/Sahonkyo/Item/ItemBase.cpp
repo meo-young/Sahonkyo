@@ -4,7 +4,11 @@
 #include "Character/CharacterBase.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Core/Main/MainGameMode.h"
 #include "Define/Define.h"
+#include "Kismet/GameplayStatics.h"
+#include "Manager/UIManager.h"
+#include "UI/Crosshair/CrosshairWidget.h"
 
 AItemBase::AItemBase()
 {
@@ -71,18 +75,23 @@ void AItemBase::Interact_Implementation()
 {
 	IInteractable::Interact_Implementation();
 
-	LOG(TEXT("아이템과 상호작용 합니다."));
+	// PlayerController와 Player, GameMode를 캐싱합니다.
+	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	Player = Cast<ACharacterBase>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	GameMode = Cast<AMainGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	
+	OnInteractionStart();
 }
 
 void AItemBase::OnInteractablePossible_Implementation()
 {
 	IInteractable::OnInteractablePossible_Implementation();
 
+	// 오브젝트에 해당하는 상호작용 이미지를 활성화합니다.
 	if (UUserWidget* Widget = ItemWidgetComponent->GetUserWidgetObject())
 	{
 		if (UItemWidget* ItemWidget = Cast<UItemWidget>(Widget))
 		{
-			//LOG(TEXT("아이템과 상호작용이 가능합니다."));
 			ItemWidget->SetObjectImageActive(true);
 		}
 	}
@@ -92,11 +101,11 @@ void AItemBase::OnInteractableImpossible_Implementation()
 {
 	IInteractable::OnInteractableImpossible_Implementation();
 
+	// 띄운 상호작용 이미지를 비활성화합니다.
 	if (UUserWidget* Widget = ItemWidgetComponent->GetUserWidgetObject())
 	{
 		if (UItemWidget* ItemWidget = Cast<UItemWidget>(Widget))
 		{
-			LOG(TEXT("아이템과 상호작용이 불가능합니다."));
 			ItemWidget->SetObjectImageActive(false);
 		}
 	}
@@ -108,14 +117,33 @@ void AItemBase::DeactivateItemCollision()
 	InteractCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+void AItemBase::OnInteractionStart()
+{
+	// 한 번만 가능한 상호작용인 경우 Collision을 비활성화합니다.
+	if (bIsInteractionOnce) DeactivateItemCollision();
+	
+	// 플레이어의 입력을 비활성화합니다.
+	Player->SetInputEnabled(false);
+	
+	// CrossHair 위젯을 비활성화합니다.
+	GameMode->GetUUIManager()->GetCrosshairWidget()->HideWidget();
+}
+
+void AItemBase::OnInteractionEnd()
+{
+	// 플레이어의 입력을 활성화합니다.
+	Player->SetInputEnabled(true);
+	
+	// CrossHair 위젯을 활성화합니다.
+	GameMode->GetUUIManager()->GetCrosshairWidget()->ShowWidget();
+}
+
 void AItemBase::OnIconTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                           UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (!OtherActor || !OtherActor->IsA(ACharacterBase::StaticClass())) return;
 
 	SetActorTickEnabled(true);
-
-	LOG(TEXT("아이템 아이콘 트리거에 플레이어가 진입했습니다."));
 }
 
 void AItemBase::OnIconTriggerEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -124,9 +152,7 @@ void AItemBase::OnIconTriggerEndOverlap(UPrimitiveComponent* OverlappedComponent
 	if (!OtherActor || !OtherActor->IsA(ACharacterBase::StaticClass())) return;
 	
 	ItemWidgetComponent->SetVisibility(false);
-
-	LOG(TEXT("아이템 아이콘 트리거에 플레이어가 진입했습니다."));
-
+	
 	SetActorTickEnabled(false);
 }
 

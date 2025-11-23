@@ -20,4 +20,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<UUIManager> UIManager;
 	
+public:
+	FORCEINLINE UUIManager* GetUUIManager() const { return UIManager; }
+	
 };

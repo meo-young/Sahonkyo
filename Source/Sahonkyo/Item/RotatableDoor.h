@@ -20,10 +20,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void PlayActorSequence();
 
-	UFUNCTION(BlueprintCallable)
-	void OnInteractionEnd();
-	
 	virtual void Interact_Implementation() override;
+
+protected:
+	virtual void OnInteractionEnd() override;
 
 private:
 	void InitViewTarget();
@@ -31,9 +31,6 @@ private:
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
 	TObjectPtr<UCameraComponent> SequenceCameraComponent;
-
-	UPROPERTY(EditAnywhere, Category = "변수|상태")
-	uint8 bIsInteractionOnce : 1 = false;
 
 private:
 	uint8 bHasInteracted : 1 = false;

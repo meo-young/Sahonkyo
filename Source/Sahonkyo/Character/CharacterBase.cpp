@@ -59,6 +59,18 @@ void ACharacterBase::BeginPlay()
 	Super::BeginPlay();
 }
 
+void ACharacterBase::SetInputEnabled(const bool InInputEnabled)
+{
+	if (APlayerController* PC = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(PC->InputComponent))
+		{
+			// 모든 입력을 한 번에 제어
+			EIC->bBlockInput = !InInputEnabled;
+		}
+	}
+}
+
 void ACharacterBase::DoMove(const FInputActionValue& MovementInput)
 {
 	// 사용자가 입력한 방향키 값을 2D 벡터로 변환합니다.

@@ -5,6 +5,8 @@
 #include "Interface/Interactable.h"
 #include "ItemBase.generated.h"
 
+class AMainGameMode;
+class ACharacterBase;
 class UWidgetComponent;
 class UItemWidget;
 class USphereComponent;
@@ -27,6 +29,10 @@ public:
 
 protected:
 	virtual void DeactivateItemCollision();
+	virtual void OnInteractionStart();
+	
+	UFUNCTION(BlueprintCallable)
+	virtual void OnInteractionEnd();
 
 private:
 	UFUNCTION()
@@ -55,6 +61,18 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "변수|UI")
 	TObjectPtr<UWidgetComponent> ItemWidgetComponent;
+	
+	UPROPERTY(EditAnywhere, Category = "변수|상태")
+	uint8 bIsInteractionOnce : 1 = false;
+	
+	UPROPERTY()
+	TWeakObjectPtr<APlayerController> PlayerController;
+	
+	UPROPERTY()
+	TWeakObjectPtr<ACharacterBase> Player;
+	
+	UPROPERTY()
+	TWeakObjectPtr<AMainGameMode> GameMode;
 
 private:
 	FHitResult HitResult;

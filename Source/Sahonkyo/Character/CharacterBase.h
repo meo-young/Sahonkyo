@@ -20,6 +20,9 @@ public:
 	ACharacterBase();
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void BeginPlay() override;
+	
+public:
+	void SetInputEnabled(const bool InInputEnabled);
 
 protected:
 	void DoMove(const FInputActionValue& MovementInput);
@@ -46,6 +49,7 @@ protected:
 	TObjectPtr<UInteractionComponent> InteractionComponent;
 
 public:
+	/* ================== Getter ================== */
 	FORCEINLINE UCameraComponent* GetCameraComponent() const { return CameraComponent; }
 	
 };
