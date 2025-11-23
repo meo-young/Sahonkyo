@@ -1,19 +1,16 @@
-#include "Item/RotatableDoor.h"
+#include "Item/ActorSequenceItem.h"
 #include "Sahonkyo.h"
 #include "Camera/CameraComponent.h"
 #include "Character/CharacterBase.h"
-#include "Character/PlayerControllerBase.h"
 
-ARotatableDoor::ARotatableDoor()
+AActorSequenceItem::AActorSequenceItem()
 {
 	SequenceCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("SequenceCameraComponent"));
 	SequenceCameraComponent->SetupAttachment(RootComponent);
 }
 
-void ARotatableDoor::OnInteractionEnd()
+void AActorSequenceItem::OnInteractionEnd()
 {
-	Super::OnInteractionEnd();
-	
 	if (!PlayerController.Get() || !Player.Get())
 	{
 		LOG(TEXT("PlayerController 혹은 Player가 유효하지 않습니다"));
@@ -30,10 +27,10 @@ void ARotatableDoor::OnInteractionEnd()
 
 	// 일정 시간 후에 플레이어 카메라로 전환합니다.
 	FTimerHandle TimerHandle;
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ARotatableDoor::InitViewTarget, 0.25f, false);
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AActorSequenceItem::InitViewTarget, 0.25f, false);
 }
 
-void ARotatableDoor::Interact_Implementation()
+void AActorSequenceItem::Interact_Implementation()
 {
 	Super::Interact_Implementation();
 
@@ -51,8 +48,10 @@ void ARotatableDoor::Interact_Implementation()
 	}
 }
 
-void ARotatableDoor::InitViewTarget()
+void AActorSequenceItem::InitViewTarget()
 {
+	Super::OnInteractionEnd();
+
 	if (!PlayerController.Get() || !Player.Get())
 	{
 		LOG(TEXT("PlayerController 혹은 Player가 유효하지 않습니다"));

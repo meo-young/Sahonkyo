@@ -2,27 +2,27 @@
 
 #include "CoreMinimal.h"
 #include "Item/ItemBase.h"
-#include "RotatableDoor.generated.h"
+#include "ActorSequenceItem.generated.h"
 
 class UCameraComponent;
 class UActorSequence;
 class UActorSequenceComponent;
 
 UCLASS()
-class SAHONKYO_API ARotatableDoor : public AItemBase
+class SAHONKYO_API AActorSequenceItem : public AItemBase
 {
 	GENERATED_BODY()
 
 public:
-	ARotatableDoor();
+	AActorSequenceItem();
 	
 public:
-	UFUNCTION(BlueprintImplementableEvent)
-	void PlayActorSequence();
-
 	virtual void Interact_Implementation() override;
 
 protected:
+	UFUNCTION(BlueprintImplementableEvent)
+	void PlayActorSequence();
+	
 	virtual void OnInteractionEnd() override;
 
 private:
@@ -31,8 +31,5 @@ private:
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
 	TObjectPtr<UCameraComponent> SequenceCameraComponent;
-
-private:
-	uint8 bHasInteracted : 1 = false;
 
 };
