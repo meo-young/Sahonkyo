@@ -8,6 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Define/Define.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Sound/SoundCue.h"
 
 ACharacterBase::ACharacterBase()
 {
@@ -73,6 +74,20 @@ void ACharacterBase::SetInputEnabled(const bool InInputEnabled)
 			// 모든 입력을 한 번에 제어
 			EIC->bBlockInput = !InInputEnabled;
 		}
+	}
+}
+
+void ACharacterBase::PlayMonologue(USoundCue* InSoundCue)
+{
+	if (AudioComponent)
+	{
+		if (AudioComponent->IsPlaying())
+		{
+			AudioComponent->Stop();
+		}
+		
+		AudioComponent->SetSound(InSoundCue);
+		AudioComponent->Play();
 	}
 }
 

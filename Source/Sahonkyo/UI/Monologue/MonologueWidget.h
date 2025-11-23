@@ -4,6 +4,7 @@
 #include "UI/WidgetBase.h"
 #include "MonologueWidget.generated.h"
 
+struct FMonologue;
 class AMonologueItem;
 class UTextBlock;
 
@@ -18,7 +19,7 @@ public:
 	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 
 public:
-	void ShowWidget(const TArray<FString>& InMonologueText, AMonologueItem* InItem);
+	void ShowWidget(const TArray<FMonologue>& InMonologue, AMonologueItem* InItem);
 	
 	void ShowMonologue();
 	
@@ -27,8 +28,8 @@ protected:
 	TObjectPtr<UTextBlock> Monologue_Text;
 	
 private:
+	TArray<FMonologue> CachedMonologue;
 	TWeakObjectPtr<AMonologueItem> CurrentItem;
-	TArray<FString> CachedMonologueText;
 	uint8 CurrentMonologueIndex = 0;
 	
 };

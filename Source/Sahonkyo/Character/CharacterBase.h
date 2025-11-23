@@ -23,6 +23,7 @@ public:
 	
 public:
 	void SetInputEnabled(const bool InInputEnabled);
+	void PlayMonologue(USoundCue* InSoundCue);
 
 protected:
 	void DoMove(const FInputActionValue& MovementInput);

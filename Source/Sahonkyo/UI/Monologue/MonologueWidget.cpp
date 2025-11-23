@@ -1,9 +1,11 @@
 #include "UI/Monologue/MonologueWidget.h"
 #include "Sahonkyo.h"
+#include "Character/CharacterBase.h"
 #include "Components/TextBlock.h"
 #include "Core/Main/MainGameMode.h"
 #include "Item/MonologueItem.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 void UMonologueWidget::NativeConstruct()
 {
@@ -29,7 +31,7 @@ FReply UMonologueWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKey
 	// F키를 입력할 경우 위젯을 비활성화합니다.
 	if (InKeyEvent.GetKey() == EKeys::F)
 	{
-		if (CurrentMonologueIndex < CachedMonologueText.Num())
+		if (CurrentMonologueIndex < CachedMonologue.Num())
 		{
 			ShowMonologue();
 		}
@@ -48,10 +50,10 @@ FReply UMonologueWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKey
 	return Super::NativeOnKeyDown(InGeometry, InKeyEvent);
 }
 
-void UMonologueWidget::ShowWidget(const TArray<FString>& InMonologueText, AMonologueItem* InItem)
+void UMonologueWidget::ShowWidget(const TArray<FMonologue>& InMonologue, AMonologueItem* InItem)
 {
 	CurrentItem = InItem;
-	CachedMonologueText = InMonologueText;
+	CachedMonologue = InMonologue;
 	CurrentMonologueIndex = 0;
 	ShowMonologue();	
 
@@ -60,6 +62,9 @@ void UMonologueWidget::ShowWidget(const TArray<FString>& InMonologueText, AMonol
 
 void UMonologueWidget::ShowMonologue()
 {
-	Monologue_Text->SetText(FText::FromString(CachedMonologueText[CurrentMonologueIndex]));
+	ACharacterBase* Player = Cast<ACharacterBase>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	
+	Player->PlayMonologue(CachedMonologue[CurrentMonologueIndex].SoundCue);
+	Monologue_Text->SetText(FText::FromString(CachedMonologue[CurrentMonologueIndex].MonologueText));
 	++CurrentMonologueIndex;
 }
