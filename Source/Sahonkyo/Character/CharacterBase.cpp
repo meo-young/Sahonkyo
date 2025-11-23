@@ -4,12 +4,17 @@
 #include "Sahonkyo.h"
 #include "Camera/CameraComponent.h"
 #include "Component/InteractionComponent.h"
+#include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Define/Define.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 ACharacterBase::ACharacterBase()
 {
+	// 대사를 출력할 오디오 컴포넌트를 설정합니다.
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
+	AudioComponent->SetupAttachment(RootComponent);
+	
 	// 상호작용 컴포넌트를 설정합니다.
 	InteractionComponent = CreateDefaultSubobject<UInteractionComponent>(TEXT("InteractionComponent"));
 	

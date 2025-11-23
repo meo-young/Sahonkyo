@@ -47,6 +47,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
 	TObjectPtr<UInteractionComponent> InteractionComponent;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "변수|컴포넌트")
+	TObjectPtr<UAudioComponent> AudioComponent;
 
 public:
 	/* ================== Getter ================== */
