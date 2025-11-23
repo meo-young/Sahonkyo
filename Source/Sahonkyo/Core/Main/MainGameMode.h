@@ -21,6 +21,6 @@ private:
 	TObjectPtr<UUIManager> UIManager;
 	
 public:
-	FORCEINLINE UUIManager* GetUUIManager() const { return UIManager; }
+	FORCEINLINE UUIManager* GetUIManager() const { return UIManager; }
 	
 };

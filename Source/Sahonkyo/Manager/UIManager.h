@@ -4,6 +4,7 @@
 #include "UObject/NoExportTypes.h"
 #include "UIManager.generated.h"
 
+class UMonologueWidget;
 class UCrosshairWidget;
 
 UCLASS()
@@ -19,16 +20,24 @@ public:
 	void InitUI(UWorld* World);
 
 protected:
-	// Widget Class 모음입니다.
+	/* ========== Widget Class 모음입니다. ========== */
 	UPROPERTY()
 	TSubclassOf<UCrosshairWidget> CrosshairWidgetClass;
+	
+	UPROPERTY()
+	TSubclassOf<UMonologueWidget> MonologueWidgetClass;
 
 private:
-	// Widget Instance 모음입니다.
+	/* ========== Widget Instance 모음입니다. ========== */
 	UPROPERTY()
 	TObjectPtr<UCrosshairWidget> CrosshairWidgetInstance;
+	
+	UPROPERTY()
+	TObjectPtr<UMonologueWidget> MonologueWidgetInstance;
 
 public:
+	/* ================== Getter ================== */
 	FORCEINLINE UCrosshairWidget* GetCrosshairWidget() const { return CrosshairWidgetInstance; }
-	
+	FORCEINLINE UMonologueWidget* GetMonologueWidget() const { return MonologueWidgetInstance; }
+
 };

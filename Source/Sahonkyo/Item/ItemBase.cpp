@@ -46,7 +46,12 @@ void AItemBase::PostInitializeComponents()
 	
 	IconTriggerCollision->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnIconTriggerBeginOverlap);
 	IconTriggerCollision->OnComponentEndOverlap.AddDynamic(this, &ThisClass::OnIconTriggerEndOverlap);
+}
 
+void AItemBase::BeginPlay()
+{
+	Super::BeginPlay();
+	
 	if (UUserWidget* Widget = ItemWidgetComponent->GetUserWidgetObject())
 	{
 		if (UItemWidget* ItemWidget = Cast<UItemWidget>(Widget))
@@ -54,11 +59,6 @@ void AItemBase::PostInitializeComponents()
 			ItemWidget->SetObjectImage(ItemIcon);
 		}
 	}
-}
-
-void AItemBase::BeginPlay()
-{
-	Super::BeginPlay();
 
 	SetActorTickEnabled(false);
 
@@ -126,7 +126,7 @@ void AItemBase::OnInteractionStart()
 	Player->SetInputEnabled(false);
 	
 	// CrossHair 위젯을 비활성화합니다.
-	GameMode->GetUUIManager()->GetCrosshairWidget()->HideWidget();
+	GameMode->GetUIManager()->GetCrosshairWidget()->HideWidget();
 }
 
 void AItemBase::OnInteractionEnd()
@@ -135,7 +135,7 @@ void AItemBase::OnInteractionEnd()
 	Player->SetInputEnabled(true);
 	
 	// CrossHair 위젯을 활성화합니다.
-	GameMode->GetUUIManager()->GetCrosshairWidget()->ShowWidget();
+	GameMode->GetUIManager()->GetCrosshairWidget()->ShowWidget();
 }
 
 void AItemBase::OnIconTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -168,5 +168,9 @@ void AItemBase::TraceToPlayer()
 	if (HitResult.GetActor() && HitResult.GetActor()->IsA(ACharacterBase::StaticClass()))
 	{
 		ItemWidgetComponent->SetVisibility(true);
+	}
+	else
+	{
+		ItemWidgetComponent->SetVisibility(false);
 	}
 }
