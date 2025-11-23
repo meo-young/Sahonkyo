@@ -26,13 +26,13 @@ public:
 	virtual void Interact_Implementation() override;
 	virtual void OnInteractablePossible_Implementation() override;
 	virtual void OnInteractableImpossible_Implementation() override;
-
-protected:
-	virtual void DeactivateItemCollision();
-	virtual void OnInteractionStart();
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void OnInteractionEnd();
+
+protected:
+	virtual void SetItemCollision(const bool bIsEnable);
+	virtual void OnInteractionStart();
 
 private:
 	UFUNCTION()

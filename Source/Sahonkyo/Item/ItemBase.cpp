@@ -111,31 +111,36 @@ void AItemBase::OnInteractableImpossible_Implementation()
 	}
 }
 
-void AItemBase::DeactivateItemCollision()
+void AItemBase::SetItemCollision(const bool bIsEnable)
 {
-	IconTriggerCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	InteractCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	if (bIsEnable)
+	{
+		IconTriggerCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		InteractCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);	
+	}
+	else
+	{
+		IconTriggerCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		InteractCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);	
+	}
 }
 
 void AItemBase::OnInteractionStart()
 {
-	// 한 번만 가능한 상호작용인 경우 Collision을 비활성화합니다.
-	if (bIsInteractionOnce) DeactivateItemCollision();
+	// Collision을 비활성화합니다.
+	SetItemCollision(false);
 	
-	// 플레이어의 입력을 비활성화합니다.
-	Player->SetInputEnabled(false);
-	
-	// CrossHair 위젯을 비활성화합니다.
-	GameMode->GetUIManager()->GetCrosshairWidget()->HideWidget();
+	// 플레이어 입력을 비활성화합니다.
+	GameMode->SetPlayerInput(false);
 }
 
 void AItemBase::OnInteractionEnd()
 {
-	// 플레이어의 입력을 활성화합니다.
-	Player->SetInputEnabled(true);
+	// 여러 번 가능한 상호작용인 경우에만 Collision을 활성화합니다.
+	if (!bIsInteractionOnce) SetItemCollision(true);
 	
-	// CrossHair 위젯을 활성화합니다.
-	GameMode->GetUIManager()->GetCrosshairWidget()->ShowWidget();
+	// 플레이어 입력을 활성화합니다.
+	GameMode->SetPlayerInput(true);
 }
 
 void AItemBase::OnIconTriggerBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -163,7 +168,7 @@ void AItemBase::TraceToPlayer()
 	
 	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_ICON_TRACE, Params);
 
-	DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 0.5f, 0, 2.0f);
+	//DrawDebugLine(GetWorld(), Start, End, FColor::Green, false, 0.5f, 0, 2.0f);
 
 	if (HitResult.GetActor() && HitResult.GetActor()->IsA(ACharacterBase::StaticClass()))
 	{

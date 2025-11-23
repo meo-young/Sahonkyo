@@ -18,12 +18,12 @@ public:
 	
 public:
 	virtual void Interact_Implementation() override;
-
+	virtual void OnInteractionEnd() override;
+	
 protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void PlayActorSequence();
-	
-	virtual void OnInteractionEnd() override;
+
 
 private:
 	void InitViewTarget();

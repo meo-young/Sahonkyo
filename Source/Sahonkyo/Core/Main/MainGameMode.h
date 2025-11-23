@@ -15,6 +15,9 @@ public:
 	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
+	
+public:
+	void SetPlayerInput(const bool bIsEnable);
 
 private:
 	UPROPERTY()

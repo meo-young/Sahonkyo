@@ -1,6 +1,28 @@
 #include "UI/Monologue/MonologueWidget.h"
 #include "Sahonkyo.h"
 #include "Components/TextBlock.h"
+#include "Core/Main/MainGameMode.h"
+#include "Item/MonologueItem.h"
+#include "Kismet/GameplayStatics.h"
+
+void UMonologueWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	
+	LOG(TEXT("Monologue 시작"));
+
+	SetIsFocusable(true);
+	SetKeyboardFocus();
+}
+
+void UMonologueWidget::NativeDestruct()
+{
+	Super::NativeDestruct();
+	
+	LOG(TEXT("Monologue 끝"));
+	
+	CurrentMonologueIndex = 0;
+}
 
 FReply UMonologueWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
@@ -14,6 +36,8 @@ FReply UMonologueWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKey
 		else
 		{
 			HideWidget();
+			
+			CurrentItem->OnInteractionEnd();
 		}
 		
 		LOG(TEXT("F키 입력"));
@@ -24,12 +48,13 @@ FReply UMonologueWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKey
 	return Super::NativeOnKeyDown(InGeometry, InKeyEvent);
 }
 
-void UMonologueWidget::ShowWidget(const TArray<FString>& InMonologueText)
+void UMonologueWidget::ShowWidget(const TArray<FString>& InMonologueText, AMonologueItem* InItem)
 {
+	CurrentItem = InItem;
 	CachedMonologueText = InMonologueText;
 	CurrentMonologueIndex = 0;
 	ShowMonologue();	
-	
+
 	Super::ShowWidget();
 }
 

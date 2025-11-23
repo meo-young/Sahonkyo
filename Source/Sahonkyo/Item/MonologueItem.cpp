@@ -8,5 +8,5 @@ void AMonologueItem::Interact_Implementation()
 	Super::Interact_Implementation();
 	
 	UMonologueWidget* MonologueWidget = GameMode->GetUIManager()->GetMonologueWidget();
-	MonologueWidget->ShowWidget(MonologueText);
+	MonologueWidget->ShowWidget(MonologueText, this);
 }
