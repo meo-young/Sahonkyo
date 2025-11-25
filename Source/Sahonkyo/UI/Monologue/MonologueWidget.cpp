@@ -72,8 +72,8 @@ void UMonologueWidget::ShowWidget(const TArray<FMonologue>& InMonologue, AMonolo
 void UMonologueWidget::ShowMonologue()
 {
 	ACharacterBase* Player = Cast<ACharacterBase>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-	
 	Player->PlayMonologue(CachedMonologue[CurrentMonologueIndex].SoundCue);
+	
 	Monologue_Text->SetText(FText::FromString(CachedMonologue[CurrentMonologueIndex].MonologueText));
 	++CurrentMonologueIndex;
 }
