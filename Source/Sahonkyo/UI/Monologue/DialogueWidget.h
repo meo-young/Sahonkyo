@@ -13,7 +13,8 @@ class SAHONKYO_API UDialogueWidget : public UWidgetBase
 	GENERATED_BODY()
 	
 public:
-	void ShowWidget(const FString& InDialogue);
+	UFUNCTION(BlueprintCallable)
+	void ShowDialogue(const FString& InDialogue);
 	
 protected:
 	UPROPERTY(meta = (BindWidget))

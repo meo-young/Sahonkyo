@@ -4,7 +4,7 @@
 #include "Item/MonologueItem.h"
 #include "Kismet/GameplayStatics.h"
 
-void UDialogueWidget::ShowWidget(const FString& InDialogue)
+void UDialogueWidget::ShowDialogue(const FString& InDialogue)
 {
 	// 타이머를 해제합니다.
 	GetWorld()->GetTimerManager().ClearTimer(Monologue_TimerHandle);
@@ -17,4 +17,6 @@ void UDialogueWidget::ShowWidget(const FString& InDialogue)
 	
 	// 대사의 길이에 따라 UI 출력 시간을 조정합니다.
 	GetWorld()->GetTimerManager().SetTimer(Monologue_TimerHandle, this, &ThisClass::HideWidget, MonologueLength/5, false);
+	
+	Super::ShowWidget();
 }

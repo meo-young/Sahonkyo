@@ -3,6 +3,7 @@
 #include "Character/PlayerControllerBase.h"
 #include "UI/Crosshair/CrosshairWidget.h"
 #include "UI/Monologue/MonologueWidget.h"
+#include "UI/Monologue/DialogueWidget.h"
 
 UUIManager::UUIManager()
 {

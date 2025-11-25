@@ -4,6 +4,7 @@
 #include "UObject/NoExportTypes.h"
 #include "UIManager.generated.h"
 
+class UDialogueWidget;
 class UMonologueWidget;
 class UCrosshairWidget;
 
