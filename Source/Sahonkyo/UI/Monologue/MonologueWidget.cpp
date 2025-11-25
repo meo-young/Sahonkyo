@@ -17,11 +17,20 @@ void UMonologueWidget::NativeConstruct()
 	SetKeyboardFocus();
 }
 
+void UMonologueWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+	
+	// 매 프레임 포커스 확인 및 유지합니다.
+	if (!HasKeyboardFocus())
+	{
+		SetKeyboardFocus();
+	}
+}
+
 void UMonologueWidget::NativeDestruct()
 {
 	Super::NativeDestruct();
-	
-	LOG(TEXT("Monologue 끝"));
 	
 	CurrentMonologueIndex = 0;
 }
@@ -47,7 +56,7 @@ FReply UMonologueWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKey
 		return FReply::Handled();
 	}
 	
-	return Super::NativeOnKeyDown(InGeometry, InKeyEvent);
+	return FReply::Handled();
 }
 
 void UMonologueWidget::ShowWidget(const TArray<FMonologue>& InMonologue, AMonologueItem* InItem)
