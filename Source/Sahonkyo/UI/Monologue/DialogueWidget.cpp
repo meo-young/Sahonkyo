@@ -16,7 +16,7 @@ void UDialogueWidget::ShowDialogue(const FString& InDialogue)
 	Dialogue_Text->SetText(FText::FromString(InDialogue));
 	
 	// 대사의 길이에 따라 UI 출력 시간을 조정합니다.
-	GetWorld()->GetTimerManager().SetTimer(Monologue_TimerHandle, this, &ThisClass::HideWidget, MonologueLength/5, false);
+	GetWorld()->GetTimerManager().SetTimer(Monologue_TimerHandle, this, &ThisClass::HideWidget, MonologueLength/4, false);
 	
 	Super::ShowWidget();
 }
